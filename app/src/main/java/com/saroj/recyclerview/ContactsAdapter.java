@@ -1,6 +1,7 @@
 package com.saroj.recyclerview;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,30 +16,37 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     List<Contacts> contactsList;
     Context context;
 
-    public ContactsAdapter(Context context) {
+    public ContactsAdapter(Context context, List<Contacts> contactsList) {
         this.context = context;
-        this.contactsList=contactsList;
+        this.contactsList = contactsList;
     }
 
     @NonNull
     @Override
     public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_contacts, parent, false);
+        return new ContactsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder holder, int position) {
+        Contacts contacts = contactsList.get(position);
+        holder.imgProfile.setImageResource(contacts.getImage());
+        holder.tvName.setText(contacts.getName());
+        holder.tvPhone.setText(contacts.getPhoneNo());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return contactsList.size();
     }
 
     public class ContactsViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProfile;
         TextView tvName, tvPhone;
+
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
             imgProfile = itemView.findViewById(R.id.imageProfile);
